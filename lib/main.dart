@@ -23,13 +23,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Chat App',
       theme: ThemeData().copyWith(
-        useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 63, 17, 177),
         ),
       ),
       home: StreamBuilder(
-        stream: FirebaseAuth.instance.onAuthStateChanged,
+        stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SpashScreen();

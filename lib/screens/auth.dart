@@ -41,21 +41,21 @@ class _AuthScreenState extends State<AuthScreen> {
         );
         print(userCredentials);
       } else {
-        final userCredentials = _firebase.createUserWithEmailAndPassword(
+        final userCredentials = await _firebase.createUserWithEmailAndPassword(
           email: _enteredEmail,
           password: _enteredPassword,
         );
         final storageRef = FirebaseStorage.instance
             .ref()
             .child("user_image")
-            .child('$userCredentials.jpg');
-        // userCredentials.user?.uid
+            .child('${userCredentials.user?.uid}.jpg');
+
         await storageRef.putFile(_selectedImage!);
         final imageUrl = storageRef.getDownloadURL();
         // userCredentials.user?.uid
         await FirebaseFirestore.instance
             .collection('users')
-            .doc(userCredentials.toString())
+            .doc(userCredentials.user?.uid)
             .set({
           "username": _enteredUsername,
           "email": _enteredEmail,
